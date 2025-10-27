@@ -24,7 +24,7 @@ const linkItems = [
   {
     label: '텔레그램 채널',
     href: 'https://t.me/sjun_101',
-    description: '가장 빠르게 투자 인사이트를 받아보세요. (무료)',
+    description: '가장 빠르게 투자 인사이트를 받아보세요.',
   },
 ];
 
