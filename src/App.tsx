@@ -94,11 +94,6 @@ const getInitialTheme = (): ThemeMode => {
     return 'dark';
   }
 
-  const stored = window.localStorage.getItem('sjun-theme');
-  if (stored === 'dark' || stored === 'light') {
-    return stored;
-  }
-
   const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
   return prefersDark ? 'dark' : 'light';
 };
@@ -109,8 +104,32 @@ function App() {
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
-    window.localStorage.setItem('sjun-theme', theme);
   }, [theme]);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') {
+      return;
+    }
+
+    const media = window.matchMedia('(prefers-color-scheme: dark)');
+    const handleChange = (event: MediaQueryListEvent) => {
+      setTheme(event.matches ? 'dark' : 'light');
+    };
+
+    if (media.addEventListener) {
+      media.addEventListener('change', handleChange);
+    } else {
+      media.addListener(handleChange);
+    }
+
+    return () => {
+      if (media.removeEventListener) {
+        media.removeEventListener('change', handleChange);
+      } else {
+        media.removeListener(handleChange);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     if (!copiedKey) {
