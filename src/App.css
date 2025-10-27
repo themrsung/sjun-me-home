@@ -528,6 +528,10 @@
   font-weight: 600;
 }
 
+:root[data-theme='light'] .footer-code-link {
+  color: #4444aa;
+}
+
 .footer-code-link code {
   font-family: 'Source Code Pro', 'JetBrains Mono', 'Fira Code', 'Menlo', monospace;
   font-size: 0.85rem;
@@ -537,6 +541,11 @@
 .footer-code-link:focus-visible {
   color: #22c55e;
   outline: none;
+}
+
+:root[data-theme='light'] .footer-code-link:hover,
+:root[data-theme='light'] .footer-code-link:focus-visible {
+  color: #2f2f88;
 }
 
 .disclaimer {
