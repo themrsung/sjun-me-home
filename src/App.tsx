@@ -17,15 +17,15 @@ const linkItems = [
     emphasis: true,
   },
   {
+    label: '텔레그램 채널',
+    href: 'https://t.me/sjun_101',
+    description: '가장 빠르게 투자 인사이트를 받아보세요.',
+  },
+  {
     label: '인공지능 시대, 버블에 투자하는 법',
     href: 'https://class101.net/ko/products/68db8809c371cea6c296a532',
     description: '자본주의는 반복됩니다. 수익의 정답은 과거에 있습니다.',
     embed: true,
-  },
-  {
-    label: '텔레그램 채널',
-    href: 'https://t.me/sjun_101',
-    description: '가장 빠르게 투자 인사이트를 받아보세요.',
   },
 ];
 
