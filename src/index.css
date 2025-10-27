@@ -23,3 +23,13 @@ body {
 a {
   color: inherit;
 }
+
+::selection {
+  background: rgba(184, 4, 4, 0.35);
+  color: #fff;
+}
+
+::-moz-selection {
+  background: rgba(184, 4, 4, 0.35);
+  color: #fff;
+}
