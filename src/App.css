@@ -481,6 +481,16 @@
   outline: none;
 }
 
+.disclaimer {
+  margin: 1.2rem auto 0;
+  max-width: 28rem;
+  font-size: 0.82rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+
+
 @media (min-width: 768px) {
   .card {
     padding: 3.2rem 3rem 3rem;

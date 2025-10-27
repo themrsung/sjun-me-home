@@ -323,6 +323,9 @@ function App() {
               보도자료
             </a>
           </div>
+          <p className="disclaimer">
+            <strong>사칭 및 사기에 유의하세요.</strong> 미래 리서치는 투자자문업자가 아니며, 어떠한 경우에도 금전적 대가를 조건으로 투자 권유를 제공하지 않습니다.
+          </p>
         </footer>
       </main>
     </div>
