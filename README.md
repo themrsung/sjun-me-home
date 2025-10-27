@@ -1,46 +1,75 @@
-# Getting Started with Create React App
+# 서준 디지털 명함 템플릿
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+이 저장소는 React(Create React App) 기반으로 구현된 개인 브랜드용 디지털 명함 싱글 페이지입니다. 프로필 소개, 대표 CTA, 소셜 채널, 사업자 정보, 경고
+disclaimer까지 한 화면에서 제공하도록 커스터마이즈되어 있습니다.
 
-## Available Scripts
+## 주요 특징
 
-In the project directory, you can run:
+- **글래스모피즘 UI**: 어두운 배경과 투명 카드, 브랜드 레드(#b80404)를 포인트로 활용한 좌중한 분위기.
+- **시스템 테마 연동**: 방문자의 OS 다크/라이트 설정과 동기화되며, 즉시 토글로 전환 가능.
+- **CTA 강조 플로우**
+  - 최상단에 대표 CTA(클래스101 멤버십)와 보조 CTA(버블 강의, 텔레그램 채널)를 버튼 카드로 배치.
+  - 버블 강의 카드에는 Vimeo 프리뷰 영상이 임베드되어 즉시 분위기 전달.
+- **콘택트 아이콘 버튼**: 이메일, 텔레그램, 인스타그램, 전화 연결을 아이콘 버튼으로 제공.
+- **사업자 정보 아코디언**
+  - 상호, 사업자등록번호(외부 상세 페이지 링크), 통신판매신고번호, 대표번호, 소재지, 호스팅, 세금계산서 발급 이메일 복사 버튼 포함.
+  - 세금계산서에 대한 추가 안내 문구 노출.
+- **푸터 리소스 링크**: 클래스101, 미리 온라인 디스코드, 보도자료 등 주요 링크를 나열.
+- **사칭 주의 문구**: 사칭/사기 주의 안내를 명시하여 사용자를 보호.
 
-### `npm start`
+## 구조
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+```
+├─ public/
+│  ├─ index.html           # 메타태그, 파비콘, OpenGraph, Twitter 카드 설정
+│  ├─ profile-big.jpg      # 큰 프로필 이미지 (프리뷰 이미지에서도 사용)
+│  └─ white-bg.(png|ico)   # 브랜드 로고, 파비콘
+├─ src/
+│  ├─ App.tsx              # 주요 레이아웃과 데이터
+│  ├─ App.css              # 전체 스타일 시트
+│  ├─ index.tsx            # React 엔트리 포인트
+│  └─ index.css            # 글로벌 스타일, Pretendard 폰트 임포트
+└─ README.md               # 현재 파일
+```
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## 주요 커스터마이즈 포인트
 
-### `npm test`
+### 브랜드/콘텐츠 수정
+- `src/App.tsx` 상단의 `companyBrand`, `linkItems`, `contactLinks` 배열을 수정하면 명함 내용이 바뀝니다.
+- CTA 순서나 강조(`emphasis`) 여부도 이곳에서 조정할 수 있습니다.
+- 사업자 정보는 `<details className="business-details">` 섹션에서 직접 수정 가능합니다.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### 스타일 조정
+- `src/App.css` 에서 색상 변수(`--brand`, `--bg`, `--text-primary` 등)를 변경해 브랜드 컬러를 바꿀 수 있습니다.
+- 버튼, 링크, 비디오 임베드 컨테이너 등 세부 요소 스타일도 모두 이 파일에서 제어합니다.
 
-### `npm run build`
+### 다국어/텍스트 변경
+- 모든 노출 텍스트는 `App.tsx` 내부 JSX에 존재합니다. 필요한 복수 언어 버전을 만들려면 상태를 분기하거나 i18n 라이브러리를 추가하세요.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 개발 및 배포
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### 요구 사항
+- Node.js LTS (>= 18)
+- npm 또는 yarn
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### 로컬 실행
+```
+npm install
+npm start
+```
 
-### `npm run eject`
+### 프로덕션 빌드
+```
+npm run build
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+빌드 결과는 `build/` 디렉터리에 생성되며, Vercel/Netlify 등 정적 호스팅 서비스에 그대로 업로드할 수 있습니다.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 추가 아이디어
+- 구글 애널리틱스/메타 픽셀 등 추적 스크립트 추가
+- 링크 클릭 트래킹을 위한 커스텀 훅 작성
+- 다국어 스위처, 추가 CTA 슬롯, FAQ 섹션 등 확장 기능
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+---
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+이 템플릿을 기반으로 개인 브랜드에 맞춘 디지털 명함 혹은 링크트리 대시보드를 빠르게 구축할 수 있습니다. 문의 또는 개선 제안은 이슈/PR로 남겨주세요.
