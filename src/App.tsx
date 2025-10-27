@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import './App.css';
 
 type ThemeMode = 'dark' | 'light';
@@ -59,6 +59,8 @@ const contactLinks: Array<{
   },
 ];
 
+const BADGE_GLINT_DURATION_MS = 1200;
+
 const renderIcon = (type: ContactIcon) => {
   switch (type) {
     case 'mail':
@@ -102,6 +104,7 @@ const getInitialTheme = (): ThemeMode => {
 function App() {
   const [theme, setTheme] = useState<ThemeMode>(getInitialTheme);
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
+  const [badgeGlintCycle, setBadgeGlintCycle] = useState(0);
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
@@ -162,6 +165,15 @@ function App() {
     return () => window.clearTimeout(timer);
   }, [copiedKey]);
 
+  useEffect(() => {
+    if (!badgeGlintCycle) {
+      return;
+    }
+
+    const timeout = window.setTimeout(() => setBadgeGlintCycle(0), BADGE_GLINT_DURATION_MS);
+    return () => window.clearTimeout(timeout);
+  }, [badgeGlintCycle]);
+
   const currentYear = new Date().getFullYear();
 
   const handleToggleTheme = () => {
@@ -189,12 +201,30 @@ function App() {
     }
   };
 
+  const handleBadgeGlint = useCallback(() => {
+    setBadgeGlintCycle((cycle) => cycle + 1);
+  }, []);
+
+  const handleBadgeKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (event.key === 'Enter' || event.key === ' ' || event.key === 'Spacebar') {
+      event.preventDefault();
+      handleBadgeGlint();
+    }
+  };
+
   return (
     <div className="app-shell">
       <div className="glow-backdrop" aria-hidden />
       <main className="card">
         <div className="top-bar">
-          <div className="brand-badge">
+          <div
+            className={`brand-badge${badgeGlintCycle ? ' brand-badge--glinting' : ''}`}
+            role="button"
+            tabIndex={0}
+            onClick={handleBadgeGlint}
+            onKeyDown={handleBadgeKeyDown}
+            aria-label="미래 리서치 브랜드 강조 효과"
+          >
             <img
               src={companyBrand.imageSrc}
               alt={`${companyBrand.label} 로고`}
