@@ -468,6 +468,25 @@ function App() {
             </dl>
           </div>
         </details>
+        <details className="business-details">
+          <summary>디지털팀</summary>
+          <div className="business-content">
+            <dl>
+              <div>
+                <dt>팀 메일</dt>
+                <dd>
+                  <a className="business-link" href="mailto:digital@sjun.me">
+                    digital@sjun.me
+                  </a>
+                </dd>
+              </div>
+              <div>
+                <dt>담당 업무</dt>
+                <dd>기업정보 시스템 및 멤버십 운영</dd>
+              </div>
+            </dl>
+          </div>
+        </details>
 
         <footer className="footer">
           <span className="footer-copy">

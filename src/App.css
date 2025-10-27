@@ -521,6 +521,10 @@
   overflow: hidden;
 }
 
+.business-details + .business-details {
+  margin-top: 1.1rem;
+}
+
 .business-details[open] {
   border-color: var(--border-soft);
   background: var(--bg-alt);
