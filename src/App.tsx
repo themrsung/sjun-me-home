@@ -20,6 +20,7 @@ const linkItems = [
     label: '인공지능 시대, 버블에 투자하는 법',
     href: 'https://class101.net/ko/products/68db8809c371cea6c296a532',
     description: '자본주의는 반복됩니다. 수익의 정답은 과거에 있습니다.',
+    embed: true,
   },
   {
     label: '텔레그램 채널',
@@ -132,6 +133,27 @@ function App() {
   }, []);
 
   useEffect(() => {
+    const scriptSrc = 'https://player.vimeo.com/api/player.js';
+    if (typeof document === 'undefined') {
+      return;
+    }
+
+    const existing = document.querySelector(`script[src="${scriptSrc}"]`);
+    if (existing) {
+      return;
+    }
+
+    const script = document.createElement('script');
+    script.src = scriptSrc;
+    script.async = true;
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
+
+  useEffect(() => {
     if (!copiedKey) {
       return;
     }
@@ -239,7 +261,7 @@ function App() {
         </section>
 
         <section className="link-list" aria-label="주요 링크">
-          {linkItems.map(({ label, href, description, emphasis }) => (
+          {linkItems.map(({ label, href, description, emphasis, embed }) => (
             <a
               key={label}
               href={href}
@@ -249,6 +271,19 @@ function App() {
             >
               <span className="link-label">{label}</span>
               <span className="link-description">{description}</span>
+              {embed && (
+                <div className="link-embed">
+                  <div className="link-embed__frame">
+                    <iframe
+                      src="https://player.vimeo.com/video/1124562490?h=b41654b929&badge=0&autopause=0&player_id=0&app_id=58479"
+                      frameBorder="0"
+                      allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+                      referrerPolicy="strict-origin-when-cross-origin"
+                      title="버블의 비극 예고편: 우리가 버블을 공부해야 하는 이유"
+                    />
+                  </div>
+                </div>
+              )}
             </a>
           ))}
         </section>
