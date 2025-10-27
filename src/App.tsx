@@ -312,7 +312,7 @@ function App() {
           </span>
           <div className="footer-links">
             <a
-              className="footer-link footer-link--brand"
+              className="footer-link"
               href="https://class101.net/ko/creators/@sjun"
               target="_blank"
               rel="noopener noreferrer"

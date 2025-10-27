@@ -467,10 +467,6 @@
   transition: color var(--transition);
 }
 
-.footer-link--brand {
-  color: var(--brand);
-}
-
 .footer-separator {
   color: var(--text-secondary);
 }
