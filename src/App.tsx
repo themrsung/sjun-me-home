@@ -105,16 +105,47 @@ const getInitialTheme = (): ThemeMode => {
 
 function App() {
   const [theme, setTheme] = useState<ThemeMode>(getInitialTheme);
+  const [copiedKey, setCopiedKey] = useState<string | null>(null);
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
     window.localStorage.setItem('sjun-theme', theme);
   }, [theme]);
 
+  useEffect(() => {
+    if (!copiedKey) {
+      return;
+    }
+
+    const timer = window.setTimeout(() => setCopiedKey(null), 1600);
+    return () => window.clearTimeout(timer);
+  }, [copiedKey]);
+
   const currentYear = new Date().getFullYear();
 
   const handleToggleTheme = () => {
     setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
+  };
+
+  const handleCopy = async (value: string, key: string) => {
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(value);
+      } else {
+        const textarea = document.createElement('textarea');
+        textarea.value = value;
+        textarea.style.position = 'fixed';
+        textarea.style.opacity = '0';
+        document.body.appendChild(textarea);
+        textarea.focus();
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+      }
+      setCopiedKey(key);
+    } catch (error) {
+      console.error('Clipboard copy failed', error);
+    }
   };
 
   return (
@@ -231,6 +262,27 @@ function App() {
                 <dt>호스팅제공자</dt>
                 <dd>Vercel, Inc.</dd>
               </div>
+              <hr className="business-divider" />
+              <div>
+                <dt>세금계산서 발급</dt>
+                <dd>
+                  <button
+                    type="button"
+                    className="business-copy"
+                    onClick={() => handleCopy('sjun@hometax.go.kr', 'tax')}
+                    aria-label="세금계산서 발급 이메일 복사"
+                  >
+                    <span className="business-copy__value">sjun@hometax.go.kr</span>
+                    <span
+                      className={`copy-feedback${copiedKey === 'tax' ? ' is-active' : ''}`}
+                      aria-live="polite"
+                    >
+                      {copiedKey === 'tax' ? '복사됨' : '복사'}
+                    </span>
+                  </button>
+                  <span className="business-note">계속사업자 · 일반과세 개인사업자</span>
+                </dd>
+              </div>
             </dl>
           </div>
         </details>
@@ -241,7 +293,7 @@ function App() {
           </span>
           <div className="footer-links">
             <a
-              className="footer-link"
+              className="footer-link footer-link--brand"
               href="https://class101.net/ko/creators/@sjun"
               target="_blank"
               rel="noopener noreferrer"
