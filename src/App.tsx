@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './App.css';
 
 type ThemeMode = 'dark' | 'light';
-type ContactIcon = 'mail' | 'telegram' | 'phone';
+type ContactIcon = 'mail' | 'telegram' | 'phone' | 'instagram';
 
 const companyBrand = {
   label: '미래 리서치',
@@ -11,20 +11,15 @@ const companyBrand = {
 
 const linkItems = [
   {
-    label: '클래스101 멤버십',
+    label: '멤버십 가입하기',
     href: 'https://class101.net/ko/creators/@sjun/membership?creatorId=y9LBXJ8qHwgfntqiXIY9QffRkC02',
-    description: '경제를 본질적으로 이해하는 대표 커리큘럼. 지금 바로 합류하세요.',
+    description: '월 4,900원으로 압도적인 투자 우위를 확보하세요.',
     emphasis: true,
   },
   {
-    label: '인스타그램',
-    href: 'https://instagram.com/sjun.me',
-    description: '서준의 생각과 일상을 가장 먼저 확인해보세요.',
-  },
-  {
-    label: '기업정보 시스템',
-    href: 'https://finance.sjun.me/',
-    description: '데이터 기반 기업 분석 리포트와 대시보드.',
+    label: '텔레그램 채널',
+    href: 'https://t.me/sjun_101',
+    description: '가장 빠르게 투자 인사이트를 받아보세요. (무료)',
   },
 ];
 
@@ -35,15 +30,21 @@ const contactLinks: Array<{
   isExternal?: boolean;
 }> = [
   {
-    label: '이메일로 문의하기',
-    href: 'mailto:biz@sjun.me',
-    icon: 'mail',
-  },
-  {
-    label: '텔레그램 채널로 이동',
+    label: '텔레그램 채널',
     href: 'https://t.me/themrsung',
     icon: 'telegram',
     isExternal: true,
+  },
+  {
+    label: '인스타그램',
+    href: 'https://instagram.com/sjun.me',
+    icon: 'instagram',
+    isExternal: true,
+  },
+  {
+    label: '이메일로 문의하기',
+    href: 'mailto:biz@sjun.me',
+    icon: 'mail',
   },
   {
     label: '대표번호로 전화하기',
@@ -64,6 +65,12 @@ const renderIcon = (type: ContactIcon) => {
       return (
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
           <path d="M20.82 3.18a1.4 1.4 0 0 0-1.42-.17L3.4 10.33a1.1 1.1 0 0 0 .12 2.06l3.83 1.14 1.5 4.6a1.07 1.07 0 0 0 1.7.5l2.15-1.76 3.65 2.7a1.1 1.1 0 0 0 1.73-.66l2.3-14.1a1.1 1.1 0 0 0-.28-.96Zm-3.53 3.23-7.2 6.53a.75.75 0 0 0-.2.33l-.7 2.3-.94-2.88a.75.75 0 0 1 .47-.94l8.57-3.06a.38.38 0 0 1 .28.7l-4.9 3.52 2.94 2.16 1.68-8.16Z" />
+        </svg>
+      );
+    case 'instagram':
+      return (
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M7 3.5h10A3.5 3.5 0 0 1 20.5 7v10a3.5 3.5 0 0 1-3.5 3.5H7A3.5 3.5 0 0 1 3.5 17V7A3.5 3.5 0 0 1 7 3.5Zm0 1.5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2H7Zm5 3.25a4.25 4.25 0 1 1 0 8.5 4.25 4.25 0 0 1 0-8.5Zm0 1.5a2.75 2.75 0 1 0 0 5.5 2.75 2.75 0 0 0 0-5.5Zm5.25-2.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z" />
         </svg>
       );
     case 'phone':
@@ -124,7 +131,25 @@ function App() {
             onClick={handleToggleTheme}
             aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
           >
-            {theme === 'dark' ? 'Light' : 'Dark'} Mode
+            {theme === 'dark' ? (
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <circle cx="12" cy="12" r="4.25" fill="currentColor" />
+                <g fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round">
+                  <line x1="12" y1="2" x2="12" y2="4.6" />
+                  <line x1="12" y1="19.4" x2="12" y2="22" />
+                  <line x1="4.6" y1="12" x2="2" y2="12" />
+                  <line x1="22" y1="12" x2="19.4" y2="12" />
+                  <line x1="6.1" y1="6.1" x2="4.4" y2="4.4" />
+                  <line x1="19.6" y1="19.6" x2="17.9" y2="17.9" />
+                  <line x1="6.1" y1="17.9" x2="4.4" y2="19.6" />
+                  <line x1="19.6" y1="4.4" x2="17.9" y2="6.1" />
+                </g>
+              </svg>
+            ) : (
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M17.75 15.77a6.75 6.75 0 0 1-9.52-9.52 8.25 8.25 0 1 0 9.52 9.52ZM11.5 2.75a.75.75 0 0 0 0 1.5h1a.75.75 0 0 0 0-1.5Zm7.75 8.75a.75.75 0 0 0 0 1.5h1a.75.75 0 0 0 0-1.5Zm-8.52 8.5a.75.75 0 0 0-.53.22l-.71.7a.75.75 0 0 0 1.06 1.07l.7-.7a.75.75 0 0 0-.52-1.29ZM4 11.5H3a.75.75 0 0 0 0 1.5h1a.75.75 0 0 0 0-1.5Zm1.24-6.96-.7-.7a.75.75 0 1 0-1.06 1.06l.7.71A.75.75 0 0 0 5.24 4.54ZM11.5 7.25a4.25 4.25 0 1 0 0 8.5 4.25 4.25 0 0 0 0-8.5Zm7.95-2.71a.75.75 0 0 0-1.06-1.06l-.7.7a.75.75 0 0 0 1.06 1.07l.7-.7ZM11.5 19.75h-1a.75.75 0 0 0 0 1.5h1a.75.75 0 0 0 0-1.5Z" />
+              </svg>
+            )}
           </button>
         </div>
 
@@ -133,10 +158,11 @@ function App() {
             <img src="/profile-big.jpg" alt="서준 프로필" loading="lazy" />
           </div>
           <h1 className="creator-name">서준</h1>
-          <p className="legal-name">Min Jun Sung (성민준)</p>
+          <p className="legal-name">Min Jun Sung · 성민준</p>
           <p className="role">대표 · 디지털팀</p>
           <p className="catchphrase">
-            경제를 보는 새로운 관점. 본질만을 다루는 진짜 강의를 선보입니다.
+            경제를 보는 새로운 관점.<br />
+            <span className="catchphrase-em">본질</span>만을 다루는 진짜 강의를 선보입니다.
           </p>
         </section>
 
@@ -208,6 +234,38 @@ function App() {
           <span className="footer-copy">
             © {currentYear} Mirae Research, All Rights Reserved.
           </span>
+          <div className="footer-links">
+            <a
+              className="footer-link"
+              href="https://class101.net/ko/creators/@sjun"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              클래스101
+            </a>
+            <span className="footer-separator" aria-hidden="true">
+              |
+            </span>
+            <a
+              className="footer-link"
+              href="https://discord.gg/XjjHwJDy"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              미래 온라인
+            </a>
+            <span className="footer-separator" aria-hidden="true">
+              |
+            </span>
+            <a
+              className="footer-link"
+              href="https://www.dropbox.com/scl/fo/twd57t33btb702r499mus/AOj9u4ZGLMSSsLEnJ1MY1Tg?rlkey=iu8jrdobumdl1o90k7aba8ihs&st=tsksmxsq&dl=0"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              보도자료
+            </a>
+          </div>
         </footer>
       </main>
     </div>
