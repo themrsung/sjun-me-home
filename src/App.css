@@ -496,6 +496,7 @@
   gap: 0.75rem;
   flex-wrap: wrap;
   justify-content: center;
+  letter-spacing: 0.02em;
 }
 
 .footer-link {
@@ -507,11 +508,34 @@
 
 .footer-separator {
   color: var(--text-secondary);
+  font-weight: 600;
 }
 
 .footer-link:hover,
 .footer-link:focus-visible {
   color: var(--text-primary);
+  outline: none;
+}
+
+.footer-code {
+  margin-top: 0.6rem;
+}
+
+.footer-code-link {
+  color: #4ade80;
+  text-decoration: none;
+  transition: color var(--transition);
+  font-weight: 600;
+}
+
+.footer-code-link code {
+  font-family: 'Source Code Pro', 'JetBrains Mono', 'Fira Code', 'Menlo', monospace;
+  font-size: 0.85rem;
+}
+
+.footer-code-link:hover,
+.footer-code-link:focus-visible {
+  color: #22c55e;
   outline: none;
 }
 

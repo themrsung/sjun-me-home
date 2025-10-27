@@ -363,9 +363,7 @@ function App() {
             >
               클래스101
             </a>
-            <span className="footer-separator" aria-hidden="true">
-              |
-            </span>
+            <span className="footer-separator" aria-hidden="true">·</span>
             <a
               className="footer-link"
               href="https://discord.gg/XjjHwJDy"
@@ -374,9 +372,7 @@ function App() {
             >
               미래 온라인
             </a>
-            <span className="footer-separator" aria-hidden="true">
-              |
-            </span>
+            <span className="footer-separator" aria-hidden="true">·</span>
             <a
               className="footer-link"
               href="https://www.dropbox.com/scl/fo/twd57t33btb702r499mus/AOj9u4ZGLMSSsLEnJ1MY1Tg?rlkey=iu8jrdobumdl1o90k7aba8ihs&st=tsksmxsq&dl=0"
@@ -389,6 +385,16 @@ function App() {
           <p className="disclaimer">
             <strong>사칭 및 사기에 유의하세요.</strong> 미래 리서치는 투자자문업자가 아니며, 어떠한 경우에도 금전적 대가를 조건으로 투자 권유를 제공하지 않습니다.
           </p>
+          <div className="footer-code">
+            <a
+              className="footer-code-link"
+              href="https://github.com/themrsung/sjun-me-home"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <code>&lt;git /&gt;</code>
+            </a>
+          </div>
         </footer>
       </main>
     </div>
