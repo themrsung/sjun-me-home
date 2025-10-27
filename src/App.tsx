@@ -61,6 +61,21 @@ const contactLinks: Array<{
 
 const BADGE_GLINT_DURATION_MS = 1200;
 
+// Update ALLOWED_DOMAINS with the hostnames you control; this gate keeps forks from exposing your PII on arbitrary deployments.
+const ALLOWED_DOMAINS = ['sjun.me', 'mjsung.com', 'sjun-me-home.vercel.app'];
+
+const isAllowedHostname = (hostname: string) => {
+  if (!hostname) {
+    return false;
+  }
+
+  if (hostname === 'localhost' || hostname === '127.0.0.1') {
+    return true;
+  }
+
+  return ALLOWED_DOMAINS.some((domain) => hostname === domain || hostname.endsWith(`.${domain}`));
+};
+
 const renderIcon = (type: ContactIcon) => {
   switch (type) {
     case 'mail':
@@ -211,6 +226,38 @@ function App() {
       handleBadgeGlint();
     }
   };
+
+  const isBrowser = typeof window !== 'undefined';
+  const isAllowedHost = isBrowser ? isAllowedHostname(window.location.hostname) : true;
+
+  if (!isAllowedHost) {
+    return (
+      <div className="app-shell">
+        <div className="glow-backdrop" aria-hidden />
+        <main className="card">
+          <div className="top-bar">
+            <div className="brand-badge" aria-label="접근 제한 안내">
+              <img src="/logo512.png" alt="React 로고" loading="lazy" />
+              <span className="brand-name">디지털 명함</span>
+            </div>
+          </div>
+          <section className="profile">
+            <p className="catchphrase">당신만의 디지털 명함을 만들어보세요!</p>
+          </section>
+          <div className="footer-code">
+            <a
+              className="footer-code-link"
+              href="https://github.com/themrsung/sjun-me-home"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <code>&lt;git /&gt;</code>
+            </a>
+          </div>
+        </main>
+      </div>
+    );
+  }
 
   return (
     <div className="app-shell">
