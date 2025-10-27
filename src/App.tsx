@@ -62,6 +62,7 @@ const contactLinks: Array<{
 const BADGE_GLINT_DURATION_MS = 1200;
 
 // Update ALLOWED_DOMAINS with the hostnames you control; this gate keeps forks from exposing your PII on arbitrary deployments.
+// 관리 중인 도메인만 ALLOWED_DOMAINS에 등록해 두면, 포크된 배포에서 개인정보가 노출되지 않습니다.
 const ALLOWED_DOMAINS = ['sjun.me', 'mjsung.com', 'sjun-me-home.vercel.app'];
 
 const isAllowedHostname = (hostname: string) => {
