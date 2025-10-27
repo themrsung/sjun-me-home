@@ -263,7 +263,16 @@ function App() {
               </div>
               <div>
                 <dt>사업자등록번호</dt>
-                <dd>726-15-02574</dd>
+                <dd>
+                  <a
+                    className="business-link"
+                    href="https://moneypin.biz/bizno/detail/7261502574"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    726-15-02574
+                  </a>
+                </dd>
               </div>
               <div>
                 <dt>통신판매신고번호</dt>

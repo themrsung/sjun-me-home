@@ -385,6 +385,20 @@
   margin: 0.2rem 0 0;
 }
 
+.business-link {
+  color: var(--text-secondary);
+  text-decoration: none;
+  border-bottom: 1px dotted var(--border-soft);
+  transition: color var(--transition), border var(--transition);
+}
+
+.business-link:hover,
+.business-link:focus-visible {
+  color: var(--text-primary);
+  border-color: rgba(184, 4, 4, 0.55);
+  outline: none;
+}
+
 .business-divider {
   border: none;
   border-top: 1px solid var(--border-soft);
