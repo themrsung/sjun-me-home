@@ -1,7 +1,7 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './App.css';
 
-type ThemeMode = 'dark' | 'light';
+type ThemeMode = 'dark' | 'light' | 'terminal';
 type ContactIcon = 'mail' | 'telegram' | 'phone' | 'instagram';
 
 const companyBrand = {
@@ -60,6 +60,7 @@ const contactLinks: Array<{
 ];
 
 const BADGE_GLINT_DURATION_MS = 1200;
+const TERMINAL_THEME_TAP_THRESHOLD = 10;
 
 // Update ALLOWED_DOMAINS with the hostnames you control; this gate keeps forks from exposing your PII on arbitrary deployments.
 // 관리 중인 도메인만 ALLOWED_DOMAINS에 등록해두면, 포크된 배포에서 개인정보가 노출되지 않습니다.
@@ -121,6 +122,7 @@ function App() {
   const [theme, setTheme] = useState<ThemeMode>(getInitialTheme);
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
   const [badgeGlintCycle, setBadgeGlintCycle] = useState(0);
+  const badgeTapCountRef = useRef(0);
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
@@ -133,7 +135,7 @@ function App() {
 
     const media = window.matchMedia('(prefers-color-scheme: dark)');
     const handleChange = (event: MediaQueryListEvent) => {
-      setTheme(event.matches ? 'dark' : 'light');
+      setTheme((prev) => (prev === 'terminal' ? prev : event.matches ? 'dark' : 'light'));
     };
 
     if (media.addEventListener) {
@@ -191,8 +193,18 @@ function App() {
   }, [badgeGlintCycle]);
 
   const currentYear = new Date().getFullYear();
+  const isTerminalTheme = theme === 'terminal';
+  const badgeLabel = isTerminalTheme ? '개발자 모드' : companyBrand.label;
+  const badgeAriaLabel = `${badgeLabel} 브랜드 강조 효과`;
 
   const handleToggleTheme = () => {
+    if (theme === 'terminal') {
+      badgeTapCountRef.current = 0;
+      setTheme(getInitialTheme());
+      return;
+    }
+
+    badgeTapCountRef.current = 0;
     setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
   };
 
@@ -217,9 +229,18 @@ function App() {
     }
   };
 
-  const handleBadgeGlint = useCallback(() => {
+  const handleBadgeGlint = () => {
     setBadgeGlintCycle((cycle) => cycle + 1);
-  }, []);
+    const nextCount = badgeTapCountRef.current + 1;
+
+    if (nextCount >= TERMINAL_THEME_TAP_THRESHOLD) {
+      badgeTapCountRef.current = 0;
+      setTheme((prev) => (prev === 'terminal' ? prev : 'terminal'));
+      return;
+    }
+
+    badgeTapCountRef.current = nextCount;
+  };
 
   const handleBadgeKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
     if (event.key === 'Enter' || event.key === ' ' || event.key === 'Spacebar') {
@@ -271,22 +292,42 @@ function App() {
             tabIndex={0}
             onClick={handleBadgeGlint}
             onKeyDown={handleBadgeKeyDown}
-            aria-label="미래 리서치 브랜드 강조 효과"
+            aria-label={badgeAriaLabel}
           >
-            <img
-              src={companyBrand.imageSrc}
-              alt={`${companyBrand.label} 로고`}
-              loading="lazy"
-            />
-            <span className="brand-name">{companyBrand.label}</span>
+            {isTerminalTheme ? (
+              <span className="brand-symbol" aria-hidden="true">
+                &gt;
+              </span>
+            ) : (
+              <img
+                src={companyBrand.imageSrc}
+                alt={`${companyBrand.label} 로고`}
+                loading="lazy"
+              />
+            )}
+            <span className="brand-name">{badgeLabel}</span>
           </div>
           <button
             type="button"
             className="theme-toggle"
             onClick={handleToggleTheme}
-            aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+            aria-label={
+              theme === 'terminal'
+                ? 'Restore system default theme'
+                : `Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`
+            }
           >
-            {theme === 'dark' ? (
+            {theme === 'terminal' ? (
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <g fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
+                  <line x1="12" y1="4" x2="12" y2="12" />
+                  <path
+                    strokeLinejoin="round"
+                    d="M7.7 6.3a7 7 0 1 0 8.6 0"
+                  />
+                </g>
+              </svg>
+            ) : theme === 'dark' ? (
               <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
                 <circle cx="12" cy="12" r="4.25" fill="currentColor" />
                 <g fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round">
@@ -474,6 +515,11 @@ function App() {
             </a>
           </div>
         </footer>
+        {isTerminalTheme && (
+          <p className="terminal-note" role="status">
+            4분기 내로 롤백하겠습니다.
+          </p>
+        )}
       </main>
     </div>
   );

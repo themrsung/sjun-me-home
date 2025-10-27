@@ -20,16 +20,22 @@ body {
   min-height: 100vh;
 }
 
+html[data-theme='terminal'] body {
+  font-family: 'JetBrains Mono', 'Fira Code', 'Source Code Pro', 'Ubuntu Mono', 'SFMono-Regular', monospace;
+  letter-spacing: 0.01em;
+  text-shadow: 0 0 8px rgba(var(--brand-rgb), 0.25);
+}
+
 a {
   color: inherit;
 }
 
 ::selection {
-  background: rgba(184, 4, 4, 0.35);
+  background: rgba(var(--brand-rgb), 0.35);
   color: #fff;
 }
 
 ::-moz-selection {
-  background: rgba(184, 4, 4, 0.35);
+  background: rgba(var(--brand-rgb), 0.35);
   color: #fff;
 }
