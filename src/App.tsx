@@ -13,7 +13,7 @@ const linkItems = [
   {
     label: '멤버십 가입하기',
     href: 'https://class101.net/ko/creators/@sjun/membership?creatorId=y9LBXJ8qHwgfntqiXIY9QffRkC02',
-    description: '월 4,900원으로 압도적인 투자 우위를 확보하세요.',
+    description: '월 9,900원으로 압도적인 투자 우위를 확보하세요.',
     emphasis: true,
   },
   {
