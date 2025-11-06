@@ -17,7 +17,7 @@ const linkItems = [
     emphasis: true,
   },
   {
-    label: '네이버 카페',
+    label: '네이버 카페 가입하기',
     href: 'https://cafe.naver.com/sjunclub',
     description: '가장 빠르게 투자 인사이트를 받아보세요.',
   },
