@@ -4,9 +4,15 @@ import './App.css';
 type ThemeMode = 'dark' | 'light' | 'terminal';
 type ContactIcon = 'mail' | 'telegram' | 'phone' | 'instagram';
 
+type ChannelIOFunction = ((...args: unknown[]) => void) & {
+  q?: unknown[][];
+  c?: (args: unknown[]) => void;
+};
+
 declare global {
   interface Window {
-    ChannelIO?: (...args: unknown[]) => void;
+    ChannelIO?: ChannelIOFunction;
+    ChannelIOInitialized?: boolean;
   }
 }
 
@@ -193,48 +199,78 @@ function App() {
       return;
     }
 
-    const scriptId = CHANNEL_IO_SCRIPT_ID;
-    let scriptElement = document.getElementById(scriptId) as HTMLScriptElement | null;
+    const w = window;
 
-    const bootChannel = () => {
-      if (!window.ChannelIO) {
-        return;
-      }
+    if (!w.ChannelIO) {
+      const ch: ChannelIOFunction = function channelIOProxy(...args: unknown[]) {
+        ch.c?.(args);
+      };
+      ch.q = [];
+      ch.c = (args: unknown[]) => {
+        ch.q?.push(args);
+      };
+      w.ChannelIO = ch;
+    }
 
-      try {
-        window.ChannelIO('boot', {
-          pluginKey: CHANNEL_IO_PLUGIN_KEY,
-        });
-      } catch (error) {
-        console.error('ChannelIO boot failed', error);
-      }
-    };
-
-    const handleError = (event: Event) => {
+    const handleScriptError = (event: Event) => {
       console.error('ChannelIO script failed to load', event);
     };
 
-    if (!scriptElement) {
-      scriptElement = document.createElement('script');
-      scriptElement.id = scriptId;
-      scriptElement.async = true;
-      scriptElement.src = CHANNEL_IO_SCRIPT_SRC;
-      scriptElement.addEventListener('load', bootChannel);
-      scriptElement.addEventListener('error', handleError);
-      document.body.appendChild(scriptElement);
-    } else if (window.ChannelIO) {
-      bootChannel();
+    const loadScript = () => {
+      if (w.ChannelIOInitialized || document.getElementById(CHANNEL_IO_SCRIPT_ID)) {
+        return;
+      }
+
+      w.ChannelIOInitialized = true;
+      const script = document.createElement('script');
+      script.id = CHANNEL_IO_SCRIPT_ID;
+      script.async = true;
+      script.src = CHANNEL_IO_SCRIPT_SRC;
+      script.addEventListener('error', handleScriptError);
+
+      const firstScript = document.getElementsByTagName('script')[0];
+      if (firstScript?.parentNode) {
+        firstScript.parentNode.insertBefore(script, firstScript);
+      } else {
+        document.head.appendChild(script);
+      }
+    };
+
+    let listenersAttached = false;
+
+    const handleLoad = () => {
+      loadScript();
+      if (listenersAttached) {
+        window.removeEventListener('DOMContentLoaded', handleLoad);
+        window.removeEventListener('load', handleLoad);
+        listenersAttached = false;
+      }
+    };
+
+    if (document.readyState === 'complete') {
+      loadScript();
     } else {
-      scriptElement.addEventListener('load', bootChannel);
-      scriptElement.addEventListener('error', handleError);
+      listenersAttached = true;
+      window.addEventListener('DOMContentLoaded', handleLoad);
+      window.addEventListener('load', handleLoad);
+    }
+
+    try {
+      w.ChannelIO?.('boot', {
+        pluginKey: CHANNEL_IO_PLUGIN_KEY,
+      });
+    } catch (error) {
+      console.error('ChannelIO boot failed', error);
     }
 
     return () => {
-      scriptElement?.removeEventListener('load', bootChannel);
-      scriptElement?.removeEventListener('error', handleError);
+      if (listenersAttached) {
+        window.removeEventListener('DOMContentLoaded', handleLoad);
+        window.removeEventListener('load', handleLoad);
+      }
 
       try {
-        window.ChannelIO?.('shutdown');
+        w.ChannelIO?.('shutdown');
       } catch (error) {
         console.error('ChannelIO shutdown failed', error);
       }
