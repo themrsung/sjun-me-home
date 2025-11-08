@@ -4,6 +4,16 @@ import './App.css';
 type ThemeMode = 'dark' | 'light' | 'terminal';
 type ContactIcon = 'mail' | 'telegram' | 'phone' | 'instagram';
 
+declare global {
+  interface Window {
+    ChannelIO?: (...args: unknown[]) => void;
+  }
+}
+
+const CHANNEL_IO_SCRIPT_ID = 'channel-io-script';
+const CHANNEL_IO_SCRIPT_SRC = 'https://cdn.channel.io/plugin/ch-plugin-web.js';
+const CHANNEL_IO_PLUGIN_KEY = '4b1c099a-a9d2-4754-82e4-159aed6bc85c';
+
 const companyBrand = {
   label: '미래 리서치',
   imageSrc: '/white-bg.png',
@@ -171,6 +181,63 @@ function App() {
 
     return () => {
       document.body.removeChild(script);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === 'undefined' || typeof document === 'undefined') {
+      return;
+    }
+
+    if (!isAllowedHostname(window.location.hostname)) {
+      return;
+    }
+
+    const scriptId = CHANNEL_IO_SCRIPT_ID;
+    let scriptElement = document.getElementById(scriptId) as HTMLScriptElement | null;
+
+    const bootChannel = () => {
+      if (!window.ChannelIO) {
+        return;
+      }
+
+      try {
+        window.ChannelIO('boot', {
+          pluginKey: CHANNEL_IO_PLUGIN_KEY,
+        });
+      } catch (error) {
+        console.error('ChannelIO boot failed', error);
+      }
+    };
+
+    const handleError = (event: Event) => {
+      console.error('ChannelIO script failed to load', event);
+    };
+
+    if (!scriptElement) {
+      scriptElement = document.createElement('script');
+      scriptElement.id = scriptId;
+      scriptElement.async = true;
+      scriptElement.src = CHANNEL_IO_SCRIPT_SRC;
+      scriptElement.addEventListener('load', bootChannel);
+      scriptElement.addEventListener('error', handleError);
+      document.body.appendChild(scriptElement);
+    } else if (window.ChannelIO) {
+      bootChannel();
+    } else {
+      scriptElement.addEventListener('load', bootChannel);
+      scriptElement.addEventListener('error', handleError);
+    }
+
+    return () => {
+      scriptElement?.removeEventListener('load', bootChannel);
+      scriptElement?.removeEventListener('error', handleError);
+
+      try {
+        window.ChannelIO?.('shutdown');
+      } catch (error) {
+        console.error('ChannelIO shutdown failed', error);
+      }
     };
   }, []);
 
