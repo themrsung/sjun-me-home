@@ -4,22 +4,6 @@ import './App.css';
 type ThemeMode = 'dark' | 'light' | 'terminal';
 type ContactIcon = 'mail' | 'telegram' | 'phone' | 'instagram';
 
-type ChannelIOFunction = ((...args: unknown[]) => void) & {
-  q?: unknown[][];
-  c?: (args: unknown[]) => void;
-};
-
-declare global {
-  interface Window {
-    ChannelIO?: ChannelIOFunction;
-    ChannelIOInitialized?: boolean;
-  }
-}
-
-const CHANNEL_IO_SCRIPT_ID = 'channel-io-script';
-const CHANNEL_IO_SCRIPT_SRC = 'https://cdn.channel.io/plugin/ch-plugin-web.js';
-const CHANNEL_IO_PLUGIN_KEY = '4b1c099a-a9d2-4754-82e4-159aed6bc85c';
-
 const companyBrand = {
   label: '미래 리서치',
   imageSrc: '/white-bg.png',
@@ -187,93 +171,6 @@ function App() {
 
     return () => {
       document.body.removeChild(script);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (typeof window === 'undefined' || typeof document === 'undefined') {
-      return;
-    }
-
-    if (!isAllowedHostname(window.location.hostname)) {
-      return;
-    }
-
-    const w = window;
-
-    if (!w.ChannelIO) {
-      const ch: ChannelIOFunction = function channelIOProxy(...args: unknown[]) {
-        ch.c?.(args);
-      };
-      ch.q = [];
-      ch.c = (args: unknown[]) => {
-        ch.q?.push(args);
-      };
-      w.ChannelIO = ch;
-    }
-
-    const handleScriptError = (event: Event) => {
-      console.error('ChannelIO script failed to load', event);
-    };
-
-    const loadScript = () => {
-      if (w.ChannelIOInitialized || document.getElementById(CHANNEL_IO_SCRIPT_ID)) {
-        return;
-      }
-
-      w.ChannelIOInitialized = true;
-      const script = document.createElement('script');
-      script.id = CHANNEL_IO_SCRIPT_ID;
-      script.async = true;
-      script.src = CHANNEL_IO_SCRIPT_SRC;
-      script.addEventListener('error', handleScriptError);
-
-      const firstScript = document.getElementsByTagName('script')[0];
-      if (firstScript?.parentNode) {
-        firstScript.parentNode.insertBefore(script, firstScript);
-      } else {
-        document.head.appendChild(script);
-      }
-    };
-
-    let listenersAttached = false;
-
-    const handleLoad = () => {
-      loadScript();
-      if (listenersAttached) {
-        window.removeEventListener('DOMContentLoaded', handleLoad);
-        window.removeEventListener('load', handleLoad);
-        listenersAttached = false;
-      }
-    };
-
-    if (document.readyState === 'complete') {
-      loadScript();
-    } else {
-      listenersAttached = true;
-      window.addEventListener('DOMContentLoaded', handleLoad);
-      window.addEventListener('load', handleLoad);
-    }
-
-    try {
-      w.ChannelIO?.('boot', {
-        pluginKey: CHANNEL_IO_PLUGIN_KEY,
-      });
-    } catch (error) {
-      console.error('ChannelIO boot failed', error);
-    }
-
-    return () => {
-      if (listenersAttached) {
-        window.removeEventListener('DOMContentLoaded', handleLoad);
-        window.removeEventListener('load', handleLoad);
-      }
-
-      try {
-        w.ChannelIO?.('shutdown');
-      } catch (error) {
-        console.error('ChannelIO shutdown failed', error);
-      }
     };
   }, []);
 
