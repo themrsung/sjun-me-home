@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import './App.css';
 
 type ThemeMode = 'dark' | 'light' | 'terminal';
-type ContactIcon = 'mail' | 'telegram' | 'phone' | 'instagram';
+type ContactIcon = 'mail' | 'telegram' | 'phone' | 'instagram' | 'youtube';
 
 const companyBrand = {
   label: '미래 리서치',
@@ -39,6 +39,12 @@ const contactLinks: Array<{
     label: '텔레그램 채널',
     href: 'https://t.me/themrsung',
     icon: 'telegram',
+    isExternal: true,
+  },
+  {
+    label: '유튜브',
+    href: 'https://youtube.com/@sjun_mirae',
+    icon: 'youtube',
     isExternal: true,
   },
   {
@@ -96,6 +102,12 @@ const renderIcon = (type: ContactIcon) => {
       return (
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
           <path d="M7 3.5h10A3.5 3.5 0 0 1 20.5 7v10a3.5 3.5 0 0 1-3.5 3.5H7A3.5 3.5 0 0 1 3.5 17V7A3.5 3.5 0 0 1 7 3.5Zm0 1.5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2H7Zm5 3.25a4.25 4.25 0 1 1 0 8.5 4.25 4.25 0 0 1 0-8.5Zm0 1.5a2.75 2.75 0 1 0 0 5.5 2.75 2.75 0 0 0 0-5.5Zm5.25-2.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z" />
+        </svg>
+      );
+    case 'youtube':
+      return (
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M20.48 7.08a2.1 2.1 0 0 0-1.48-1.48C17.62 5.25 12 5.25 12 5.25s-5.62 0-7 0.35A2.1 2.1 0 0 0 3.52 7.1 22.5 22.5 0 0 0 3.25 12a22.5 22.5 0 0 0 .27 4.92 2.1 2.1 0 0 0 1.48 1.48c1.38.35 7 .35 7 .35s5.62 0 7-.35a2.1 2.1 0 0 0 1.48-1.48c.18-.7.29-1.45.33-2.2.04-.74.06-1.48.06-2.22a22.5 22.5 0 0 0-.27-4.92Zm-10.7 7.13V9.79l3.97 2.21-3.97 2.21Z" />
         </svg>
       );
     case 'phone':
