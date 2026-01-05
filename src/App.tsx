@@ -23,7 +23,7 @@ const linkItems = [
   // },
   {
     label: '유튜브에서 만나보세요!',
-    href: 'https://class101.net/ko/products/68db8809c371cea6c296a532',
+    href: 'https://youtube.com/@sjun_mirae',
     description: '압도적인 투자 우위를 확보하세요.',
     emphasis: true,
   },
