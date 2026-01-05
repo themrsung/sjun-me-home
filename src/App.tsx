@@ -10,17 +10,17 @@ const companyBrand = {
 };
 
 const linkItems = [
-  {
-    label: '멤버십 가입하기',
-    href: 'https://abr.ge/f9b55k',
-    description: '월 9,900원으로 압도적인 투자 우위를 확보하세요.',
-    emphasis: true,
-  },
-  {
-    label: '네이버 카페 가입하기',
-    href: 'https://cafe.naver.com/sjunclub',
-    description: '가장 빠르게 투자 인사이트를 받아보세요.',
-  },
+  // {
+  //   label: '멤버십 가입하기',
+  //   href: 'https://abr.ge/f9b55k',
+  //   description: '월 9,900원으로 압도적인 투자 우위를 확보하세요.',
+  //   emphasis: true,
+  // },
+  // {
+  //   label: '네이버 카페 가입하기',
+  //   href: 'https://cafe.naver.com/sjunclub',
+  //   description: '가장 빠르게 투자 인사이트를 받아보세요.',
+  // },
   {
     label: '인공지능 시대, 버블에 투자하는 법',
     href: 'https://class101.net/ko/products/68db8809c371cea6c296a532',
@@ -35,12 +35,12 @@ const contactLinks: Array<{
   icon: ContactIcon;
   isExternal?: boolean;
 }> = [
-  {
-    label: '텔레그램 채널',
-    href: 'https://t.me/themrsung',
-    icon: 'telegram',
-    isExternal: true,
-  },
+  // {
+  //   label: '텔레그램 채널',
+  //   href: 'https://t.me/themrsung',
+  //   icon: 'telegram',
+  //   isExternal: true,
+  // },
   {
     label: '유튜브',
     href: 'https://youtube.com/@sjun_mirae',
