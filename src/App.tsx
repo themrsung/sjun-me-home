@@ -26,7 +26,6 @@ const linkItems = [
     href: 'https://class101.net/ko/products/68db8809c371cea6c296a532',
     description: '압도적인 투자 우위를 확보하세요.',
     emphasis: true,
-    embed: true,
   },
   {
     label: '인공지능 시대, 버블에 투자하는 법',
