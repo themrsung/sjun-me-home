@@ -487,7 +487,7 @@ function App() {
             </dl>
           </div>
         </details>
-
+{/* 
         <details className="business-details">
           <summary>디지털팀</summary>
           <div className="business-content">
@@ -506,7 +506,7 @@ function App() {
               </div>
             </dl>
           </div>
-        </details>
+        </details> */}
 
         <footer className="footer">
           <span className="footer-copy">
