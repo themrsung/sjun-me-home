@@ -22,9 +22,17 @@ const linkItems = [
   //   description: '가장 빠르게 투자 인사이트를 받아보세요.',
   // },
   {
+    label: '유튜브에서 만나보세요!',
+    href: 'https://class101.net/ko/products/68db8809c371cea6c296a532',
+    description: '압도적인 투자 우위를 확보하세요.',
+    emphasis: true,
+    embed: true,
+  },
+  {
     label: '인공지능 시대, 버블에 투자하는 법',
     href: 'https://class101.net/ko/products/68db8809c371cea6c296a532',
     description: '자본주의는 반복됩니다. 수익의 정답은 과거에 있습니다.',
+    emphasis: false,
     embed: true,
   },
 ];
